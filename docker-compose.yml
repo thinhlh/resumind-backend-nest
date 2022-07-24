@@ -3,7 +3,7 @@ version: '3'
 services:
   db:
     image: postgres
-    container_name: resumind-db
+    container_name: ${DATABASE_NAME}
     restart: always
     ports:
       - "$DATABASE_PORT:5432"
