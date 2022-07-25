@@ -1,5 +1,6 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app/app.module';
 import { CustomExceptionFilter } from './config/filters/exception.filter';
 import { ErrorResponseInterceptor } from './config/interceptors/error-response.interceptor';
@@ -23,7 +24,25 @@ async function appConfig(app: INestApplication) {
     forbidNonWhitelisted: true,
     transform: true,
   }));
+
+  swaggerConfig(app);
+
+
   await app.listen(3000);
+}
+
+
+async function swaggerConfig(app: INestApplication) {
+  const swaggerOption = new DocumentBuilder()
+    .setTitle("Resumind API")
+    .setDescription("Resumind API documentation")
+    .setVersion("1.0.0")
+    .setContact("Hoang Thinh", "www.hoangthinh.me", "thinhlh0812@gmail.com")
+    .build();
+
+  const document = SwaggerModule.createDocument(app, swaggerOption);
+
+  SwaggerModule.setup('/api/docs', app, document);
 }
 
 
